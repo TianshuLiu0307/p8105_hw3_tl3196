@@ -8,3 +8,9 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
+## Problem 1
+```{r import_data}
+library(p8105.datasets)
+data("instacart")
+```
+
