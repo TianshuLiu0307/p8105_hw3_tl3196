@@ -117,16 +117,18 @@ accel_df = read_csv("./data/accel_data.csv") %>%
     values_to = "n_activity"
   ) %>% 
   mutate(
-    weekday_vs_weekend = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday"),
+    weekday = ifelse(day %in% c("Saturday", "Sunday"), FALSE, TRUE),
     week = as.integer(week),
     day_id = as.integer(day_id)
   ) %>%
-  relocate(weekday_vs_weekend, .after = day)
+  relocate(weekday, .after = day)
 
 accel_df
 ```
 
-This data set contains ``r ncol(accel_df)`` variables, which are ``r colnames(accel_df)``.
+This data set records five weeks of accelerometer data collected on a 63 year-old male with BMI 25, who was admitted to the Advanced Cardiac Care Center of Columbia University Medical Center and diagnosed with congestive heart failure (CHF).
+
+This data set contains ``r ncol(accel_df)`` variables, which are ``r colnames(accel_df)``. The variables, data types and explanations are shown in the table below:
 
 ```{r caccel_col_info, echo=FALSE}
 col_names = colnames(accel_df)
@@ -138,7 +140,7 @@ explanation = c(
   "which week in the obervation period",
   "which day in the observation period",
   "what day is it",
-  "it is on weekday or weekend",
+  "it is on weekday or not",
   "the minute of a day",
   "number of activities happeded in this minute"
 )
@@ -170,58 +172,37 @@ day_total_act %>%
   )
 ```
 
-From the table and lineplot, there is not apparent trend of the total activities over each day in the observation period.
+From the table and line-plot, there is not apparent trend of the total activities over each day in the observation period.
 
-Accelerometer data allows the inspection activity over the course of the day. Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. Describe in words any patterns or conclusions you can make based on this graph.
 
-```{r panel}
-library(patchwork)
+```{r 24_hour}
 
-week1 = 
 accel_df %>% 
-  filter(week == 1) %>% 
-  ggplot(aes(x = minute_of_day, y = n_activity, color = day_id)) +
-  xlim(0,1440) +
-  scale_y_continuous(breaks = c(0, 2000, 4000, 6000, 8000)) +
-  geom_line() + 
-  theme_minimal() 
+  mutate(
+    day_id = as.character(day_id),
+    week = as.character(week)
+  ) %>% 
+  ggplot(aes(x = minute_of_day, y = n_activity)) +
+  labs(
+    x = "Minute of Day",
+    y = "Number of Activities",
+    title = "24-hour activity time courses for each day"
+  ) +
+  geom_point(size = .1, alpha = .2, color = "red") + 
+  geom_line(size = .1, alpha = .5) +
+  theme_minimal() +
+  facet_grid(cols = vars(day), rows = vars(week))
+```
 
-week2 = 
-accel_df %>% 
-  filter(week == 2) %>% 
-  ggplot(aes(x = minute_of_day, y = n_activity, color = day_id)) +
-  xlim(0,1440) +
-  scale_y_continuous(breaks = c(0, 2000, 4000, 6000, 8000)) +
-  geom_line() + 
-  theme_minimal() 
 
-week3 = 
-accel_df %>% 
-  filter(week == 3) %>% 
-  ggplot(aes(x = minute_of_day, y = n_activity, color = day_id)) +
-  xlim(0,1440) +
-  scale_y_continuous(breaks = c(0, 2000, 4000, 6000, 8000)) +
-  geom_line() + 
-  theme_minimal() 
+From the plots of 5 weeks, we can conclude that the number of activities happened per day first increses
 
-week4 = 
-accel_df %>% 
-  filter(week == 4) %>% 
-  ggplot(aes(x = minute_of_day, y = n_activity, color = day_id)) +
-  xlim(0,1440) +
-  scale_y_continuous(breaks = c(0, 2000, 4000, 6000, 8000)) +
-  geom_line() + 
-  theme_minimal() 
+# Problem 3
 
-week5 = 
-accel_df %>% 
-  filter(week == 5) %>% 
-  ggplot(aes(x = minute_of_day, y = n_activity, color = day_id)) +
-  xlim(0,1440) +
-  scale_y_continuous(breaks = c(0, 2000, 4000, 6000, 8000)) +
-  geom_line() + 
-  theme_minimal() 
+Import data from p8105 datasets.
 
-(week1 + week2) / (week3) / (week4 + week5)
+```{r import_ny_noaa}
+library(p8105.datasets)
+data("ny_noaa")
 ```
 
