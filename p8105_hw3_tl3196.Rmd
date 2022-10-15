@@ -441,7 +441,7 @@ tmin_vs_tmax =
 ```
 
 
-```{r snow}
+```{r snow, fig.height=8, fig.width=10}
 snowfall = 
   ny_noaa %>% 
   filter(
@@ -456,7 +456,7 @@ snowfall =
   labs(
     x = "snowfall (mm)",
     y = "density",
-    title = "Distribution of snowfall values greater than 0 and less than 100"
+    title = "Distribution of snowfall values"
   ) + 
   theme_minimal() + 
   theme(legend.position = "bottom")
