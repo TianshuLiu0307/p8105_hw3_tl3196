@@ -327,7 +327,7 @@ ny_noaa =
   )
 ```
 
-First, check the current temperature values in the data set.
+Check the current value characteristics of each variable in the data set.
 
 ```{r check}
 ny_noaa %>% summary()
@@ -338,7 +338,7 @@ Thus, the value of `tmax` and `tmin` should be divided by `10`.
 
 The unit of snowfall is reasonable, which don't need converting.
 
-The unit of precipitation should also be divided by 10.
+The unit of precipitation should also be divided by `10`.
 
 ```{r noaa_cleaning}
 ny_noaa = 
@@ -364,7 +364,7 @@ ny_noaa %>%
   arrange(-snow_count)
 ```
 
-The most commonly observed value of snowfall is `0`, since most of the days in New York in a year do not snow.
+The most commonly observed value of snowfall is `0`, since most of the days in New York in a year do not have snowfall. Even in winter, it does not snow every day.
 
 ```{r avg_tmax}
 ny_noaa %>% 
