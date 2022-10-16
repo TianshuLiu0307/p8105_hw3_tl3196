@@ -467,7 +467,6 @@ snowfall =
   theme(legend.position = "bottom")
 
 tmin_vs_tmax + snowfall
-
 ```
 
 
