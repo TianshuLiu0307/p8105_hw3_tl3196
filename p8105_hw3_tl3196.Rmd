@@ -259,6 +259,8 @@ The peak of activity numbers always appears at around 8 pm on each Friday and Mo
 Import data from p8105 datasets.
 
 ```{r import_ny_noaa}
+#Import data from p8105
+
 library(p8105.datasets)
 data("ny_noaa")
 ```
