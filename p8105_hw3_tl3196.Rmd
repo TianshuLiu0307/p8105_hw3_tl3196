@@ -275,9 +275,11 @@ The variables' types in the original data set and descriptions are shown in the 
 ```{r noaa_col_info, echo=FALSE}
 col_names = colnames(ny_noaa)
 col_types = c()
+
 for (col in col_names){
   col_types = c(col_types, class(pull(ny_noaa, col)))
 }
+
 description = c(
   "Weather station id",
   "Date of observation",
@@ -301,6 +303,7 @@ n_total = nrow(ny_noaa)
 col_names = colnames(ny_noaa)
 n_na = c()
 percent = c()
+
 for (col in col_names){
   col_n_na = nrow(ny_noaa[is.na(pull(ny_noaa, col)), ])
   n_na = c(n_na, col_n_na)
